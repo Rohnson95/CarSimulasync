@@ -11,5 +11,11 @@
         public decimal CarTime { get; set; }
 
         public decimal TimeToFinish { get; set; }
+
+        public decimal remainingStatus()
+        {
+            return DistanceLeft;
+        }
+
     }
 }
