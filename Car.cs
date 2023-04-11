@@ -11,7 +11,6 @@
         public double CarTime { get; set; }
         public double Event { get; set; }
         public double TimeToFinish { get; set; }
-        public string Placing { get; set; }
 
         public string CarStatus { get; set; }
 

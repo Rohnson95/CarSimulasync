@@ -2,12 +2,13 @@
 {
     public class RaceLogic
     {
-        public static async Task RaceMain()
+        public static async Task RaceMain() //Main RaceLogic
         {
             Console.WriteLine("Car Sim! Press enter to start");
             Console.ReadKey();
             Console.WriteLine("Race has started!");
 
+            //Car objects
             Car firstCar = new Car()
             {
                 Id = 1,
@@ -40,33 +41,18 @@
                 CarTime = 0,
                 CarStatus = "None"
             };
+
+
             bool winner = false;
+
+            //calls the startRace method for each object
             var firstCarTask = StartRace(firstCar);
             var secondCarTask = StartRace(secondCar);
             var thirdCarTask = StartRace(thirdCar);
             var statusCarTask = CarStatus(new List<Car> { firstCar, secondCar, thirdCar });
             var carTasks = new List<Task> { firstCarTask, secondCarTask, thirdCarTask, statusCarTask };
-            //ConsoleKeyInfo key = Console.ReadKey();
-            /*bool check = true;
-            while (check)
-            {
-                if (Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Enter)
-                {
-                    foreach (var car in new List<Car> { firstCar, secondCar, thirdCar })
-                    {
-                        //Console.Clear();
-                        Console.WriteLine($"{car.Name}: {(car.DistanceLeft)} metres remaining driving at:{car.Speed} time: {car.CarTime}");
 
-                        if (car.DistanceLeft <= 0)
-                        {
-                            check = false;
-
-                        }
-                    }
-                }
-                //await Task.Delay(TimeSpan.FromSeconds(0.1));
-            }*/
-
+            //While there are more than 0 cars left, keep going
             while (carTasks.Count > 0)
             {
 
@@ -81,7 +67,7 @@
 
                     }
                     else Console.WriteLine($"{firstCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", firstCar.CarTime)}s");
-                    //PrintCar(firstCar);
+
 
                 }
                 else if (finishedTask == secondCarTask)
@@ -94,7 +80,7 @@
 
                     }
                     else Console.WriteLine($"{secondCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", secondCar.CarTime)}s");
-                    //PrintCar(secondCar);
+
                 }
                 else if (finishedTask == thirdCarTask)
                 {
@@ -105,7 +91,7 @@
 
                     }
                     else Console.WriteLine($"{thirdCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", thirdCar.CarTime)}s");
-                    //PrintCar(thirdCar);
+
                 }
                 else if (finishedTask == statusCarTask)
                 {
@@ -114,19 +100,18 @@
 
                 await finishedTask;
                 carTasks.Remove(finishedTask);
-                //Console.WriteLine("The race is over! Press enter to exit");
 
-                //Environment.Exit(0);
             }
 
 
 
         }
-        public async static Task Wait(int delay = 1)
+        public async static Task Wait(int delay = 1) //creates a Wait method that has a task delay of one second 
         {
-            await Task.Delay(TimeSpan.FromSeconds(delay / 10));
+            await Task.Delay(TimeSpan.FromSeconds(delay));
         }
 
+        //Main Racelogic
         public async static Task<Car> StartRace(Car car)
         {
             int time = 30;
@@ -135,11 +120,11 @@
             {
                 if (car.CarTime % 30 == 0)
                 {
-                    int eventProbability = random.Next(1, 51);
+                    int eventProbability = random.Next(1, 51); //creates an instance of randomness where any of the following items can happened based on odds
                     if (eventProbability == 1)
                     {
                         Console.WriteLine($"{car.Name} ran out of Gas! stopping to refuel...");
-                        car.CarStatus = "Ran out of gas";
+                        car.CarStatus = "Ran out of gas"; //Sets the carstatus from none to "ran out of gas"
                         //await Wait(30);
                         await Wait(30);
                         //car.CarTime = car.CarTime + 30;
@@ -179,7 +164,7 @@
 
                 //Console.WriteLine($"distance Left is {car.DistanceLeft} Cartime {car.CarTime}");
 
-                if (car.TimeToFinish <= 30)
+                if (car.TimeToFinish <= 30) //Adds time onto the CarTime variable so that the accuracy of the car that wins is precise.
                 {
                     car.CarTime += car.TimeToFinish;
                     car.DistanceLeft = 0;
@@ -190,6 +175,7 @@
             }
         }
 
+        //Method to call for a statusupdate during the race
         public async static Task CarStatus(List<Car> cars)
         {
 
@@ -220,11 +206,11 @@
                 var totalRemaining = cars.Select(car => car.TimeToFinish).Sum();
                 if (totalRemaining == 0)
                 {
-
                     return;
                 }
             }
         }
+        //Prints the information for each car
         public static void PrintCar(Car car)
         {
 

@@ -4,7 +4,7 @@
     {
         static async Task Main(string[] args)
         {
-            await RaceLogic.RaceMain();
+            await RaceLogic.RaceMain(); // Initiates The Program
         }
 
 
