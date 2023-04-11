@@ -17,7 +17,7 @@
                 Speed = 120,
                 CarTime = 0,
 
-                CarStatus = "Nothing"
+                CarStatus = "None"
             };
             Car secondCar = new Car()
             {
@@ -27,7 +27,7 @@
                 DistanceDriven = 0,
                 Speed = 120,
                 CarTime = 0,
-                CarStatus = "Nothing"
+                CarStatus = "None"
 
             };
             Car thirdCar = new Car()
@@ -38,7 +38,7 @@
                 DistanceDriven = 0,
                 Speed = 120,
                 CarTime = 0,
-                CarStatus = "Nothing"
+                CarStatus = "None"
             };
             bool winner = false;
             var firstCarTask = StartRace(firstCar);
@@ -77,9 +77,10 @@
                     if (winner == false)
                     {
                         winner = true;
-                        Console.WriteLine($"{firstCar.Name} Won!");
+                        Console.WriteLine($"{firstCar.Name} Won! Time: {String.Format("{0:F2}", firstCar.CarTime)}");
+
                     }
-                    else Console.WriteLine($"{firstCar.Name} has Passed the Finish line with a time of {firstCar.CarTime}s");
+                    else Console.WriteLine($"{firstCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", firstCar.CarTime)}s");
                     //PrintCar(firstCar);
 
                 }
@@ -89,9 +90,10 @@
                     if (winner == false)
                     {
                         winner = true;
-                        Console.WriteLine($"{secondCar.Name} Won!");
+                        Console.WriteLine($"{secondCar.Name} Won!  Time: {String.Format("{0:F2}", secondCar.CarTime)}s");
+
                     }
-                    else Console.WriteLine($"{secondCar.Name} has Passed the Finish line with a time of {secondCar.CarTime}s");
+                    else Console.WriteLine($"{secondCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", secondCar.CarTime)}s");
                     //PrintCar(secondCar);
                 }
                 else if (finishedTask == thirdCarTask)
@@ -99,9 +101,10 @@
                     if (winner == false)
                     {
                         winner = true;
-                        Console.WriteLine($"{thirdCar.Name} Won!");
+                        Console.WriteLine($"{thirdCar.Name} Won!  Time: {String.Format("{0:F2}", thirdCar.CarTime)}s");
+
                     }
-                    else Console.WriteLine($"{thirdCar.Name} has Passed the Finish line with a time of {thirdCar.CarTime}s");
+                    else Console.WriteLine($"{thirdCar.Name} has Passed the Finish line with a time of {String.Format("{0:F2}", thirdCar.CarTime)}s");
                     //PrintCar(thirdCar);
                 }
                 else if (finishedTask == statusCarTask)
@@ -112,7 +115,7 @@
                 await finishedTask;
                 carTasks.Remove(finishedTask);
                 //Console.WriteLine("The race is over! Press enter to exit");
-                Console.ReadKey();
+
                 //Environment.Exit(0);
             }
 
@@ -121,7 +124,7 @@
         }
         public async static Task Wait(int delay = 1)
         {
-            await Task.Delay(TimeSpan.FromSeconds(delay / 5));
+            await Task.Delay(TimeSpan.FromSeconds(delay / 10));
         }
 
         public async static Task<Car> StartRace(Car car)
@@ -140,23 +143,23 @@
                         //await Wait(30);
                         await Wait(30);
                         //car.CarTime = car.CarTime + 30;
-                        car.Event = 30;
+                        car.Event += 30;
                     }
                     else if (eventProbability <= 3)
                     {
                         Console.WriteLine($"{car.Name} got a flat tire!");
-                        car.CarStatus = "FlatTire";
+                        car.CarStatus = "Flat tire";
                         await Wait(20);
                         //car.CarTime = car.CarTime + 20;
-                        car.Event = 20;
+                        car.Event += 20;
                     }
                     else if (eventProbability >= 3 && eventProbability <= 7)
                     {
                         Console.WriteLine($"{car.Name} got a bird on the windshield! Cleaning windshield...");
-                        car.CarStatus = "Bird On The WindShield";
+                        car.CarStatus = "Bird On The Windshield";
                         await Wait(10);
                         //car.CarTime = car.CarTime + 10;
-                        car.Event = 10;
+                        car.Event += 10;
 
 
                     }
@@ -192,10 +195,10 @@
 
             while (true)
             {
-                await Task.Delay(10);
+
                 DateTime start = DateTime.Now;
                 bool gotKey = false;
-                while ((DateTime.Now - start).TotalSeconds < 2)
+                while ((DateTime.Now - start).TotalSeconds < 30)
                 {
                     if (Console.KeyAvailable)
                     {
@@ -205,7 +208,7 @@
                 }
                 if (gotKey)
                 {
-                    //Console.ReadKey();
+                    Console.ReadKey();
                     Console.Clear();
                     cars.ForEach(car =>
                     {
@@ -213,7 +216,7 @@
                     });
                     gotKey = false;
                 }
-                //await Task.Delay(10);
+                await Task.Delay(10);
                 var totalRemaining = cars.Select(car => car.TimeToFinish).Sum();
                 if (totalRemaining == 0)
                 {
@@ -225,7 +228,7 @@
         public static void PrintCar(Car car)
         {
 
-            Console.WriteLine($"{car.Name} has {String.Format("{0:F2}", car.DistanceLeft)} left and is going at {car.Speed} km/h Problems: {car.CarStatus} penalty: {car.Event}");
+            Console.WriteLine($"{car.Name} has {String.Format("{0:F2}", car.DistanceLeft)} left and is going at {car.Speed} km/h | Problems: {car.CarStatus}");
 
         }
     }
